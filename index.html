@@ -105,16 +105,17 @@
         }
 
 
-        /* CSS BARU UNTUK VIDEO HTML5 (Disesuaikan ke ukuran yang lebih kecil dan proporsional) */
+        /* CSS BARU UNTUK VIDEO HTML5 (Diperbaiki agar responsif di HP/PC tanpa fullscreen) */
         #github-video-player {
             position: fixed;
             top: 50%; /* Pusatkan secara vertikal */
             left: 50%; /* Pusatkan secara horizontal */
             
-            /* Menentukan ukuran yang lebih kecil dan mempertahankan rasio aspek */
-            width: 80%; /* Contoh: Video akan mengambil 80% dari lebar viewport */
-            max-width: 600px; /* Batasi lebar maksimal agar tidak terlalu besar di desktop */
-            height: auto; /* Memastikan tinggi menyesuaikan rasio aspek lebar */
+            /* Menentukan ukuran yang proporsional dibatasi oleh viewport */
+            width: auto; 
+            height: auto; 
+            max-width: 100%; 
+            max-height: 100vh; 
             
             transform: translate(-50%, -50%); /* Geser kembali untuk pemusatan yang sebenarnya */
             z-index: -2;
@@ -122,9 +123,8 @@
             object-fit: contain; /* Memastikan seluruh video terlihat tanpa terpotong */
             overflow: hidden;
             display: none;
-
-            /* Background agar area yang tidak tertutup video memiliki warna latar yang sama dengan body */
-            background-color: #9BBDE6; 
+            
+            background-color: #9BBDE6; /* Warna latar belakang body */
         }
 
 
@@ -133,13 +133,17 @@
             position: fixed;
             top: 50%; 
             left: 50%;
-            width: 80%; /* Sama dengan lebar video */
-            max-width: 600px; /* Sama dengan max-width video */
+            /* Menggunakan pembatas max-width/height agar proporsional */
+            width: auto; 
             height: auto; 
-            min-height: 50vh; /* Minimal tinggi agar background tidak terlalu kecil */
+            max-width: 100%; 
+            max-height: 100vh; 
+            
             transform: translate(-50%, -50%);
             z-index: -1;
-            background-size: cover;
+            background-size: contain; /* Agar terlihat seluruh gambar, mirip object-fit: contain */
+            background-repeat: no-repeat;
+            background-color: #9BBDE6; /* Warna latar belakang body */
             background-position: center;
             display: none;
             background-image: url('cover-background.jpg');
