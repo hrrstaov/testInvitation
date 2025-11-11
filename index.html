@@ -105,7 +105,8 @@
         }
 
 
-        #vimeo-player {
+        /* CSS BARU UNTUK VIDEO HTML5 */
+        #github-video-player {
             position: fixed;
             top: 0;
             left: 0;
@@ -113,7 +114,7 @@
             height: 100vh;
             z-index: -2;
             pointer-events: none;
-            object-fit: cover;
+            object-fit: cover; /* Penting agar video mengisi seluruh layar */
             overflow: hidden;
             display: none;
         }
@@ -403,10 +404,10 @@
 
     <div id="main-content">
 
-        <iframe id="vimeo-player"
-            src="https://player.vimeo.com/video/1132115856?background=1&autoplay=0&loop=1&muted=1&playsinline=1&autopause=0&api=1&player_id=vimeo-player"
-            frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
-        </iframe>
+        <video id="github-video-player" loop muted playsinline preload="auto">
+            <source src="export.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
 
         <div id="image-background"></div>
 
@@ -542,14 +543,13 @@
         </a>
     </div>
 
-    <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
-        var player;
+        // Mengganti variabel player dengan elemen video HTML5
+        const videoPlayer = document.getElementById('github-video-player');
         var playerStatus = 'paused';
         var navBar = document.getElementById('navigator-bar');
         var toggleBtn = document.getElementById('toggle-video-btn');
         var icon = toggleBtn.querySelector('i');
-        const videoPlayer = document.getElementById('vimeo-player');
         const imageBackground = document.getElementById('image-background');
         const videoControls = document.getElementById('video-controls');
 
@@ -576,20 +576,7 @@
             }, 300);
         }
 
-        function onPlayerPlay() {
-            playerStatus = 'playing';
-            icon.className = 'fas fa-pause';
-        }
-
-        function onPlayerPause() {
-            playerStatus = 'paused';
-            icon.className = 'fas fa-play';
-        }
-
-        function onPlayerEnded() {
-            player.setCurrentTime(0);
-            player.play();
-        }
+        // Hapus fungsi onPlayerPlay/Pause/Ended
 
         /* show guestbook */
         function loadGuestbook() {
@@ -654,8 +641,9 @@
                 imageBackground.style.display = 'none';
                 videoControls.style.display = 'flex';
 
-                if (player && playerStatus !== 'playing') {
-                    player.play().catch(error => {
+                // Mengganti logic Vimeo ke video HTML5
+                if (videoPlayer && playerStatus !== 'playing') {
+                    videoPlayer.play().catch(error => {
                         console.log("Autoplay diblokir.");
                     });
                 }
@@ -667,8 +655,9 @@
                 imageBackground.style.display = 'block';
                 videoControls.style.display = 'none';
 
-                if (player && playerStatus === 'playing') {
-                    player.pause();
+                // Mengganti logic Vimeo ke video HTML5
+                if (videoPlayer && playerStatus === 'playing') {
+                    videoPlayer.pause();
                 }
 
                 showNavbar();
@@ -720,24 +709,27 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            var iframe = document.getElementById('vimeo-player');
+            
+            // Inisialisasi video HTML5
+            if (videoPlayer) {
+                videoPlayer.volume = 0; // Set volume ke 0 (muted)
+                playerStatus = 'paused'; // Status awal
 
-            hideNavbar();
-
-            // Vimeo Player
-            if (iframe) {
-                player = new Vimeo.Player(iframe);
-
-                player.ready().then(function () {
-                    onPlayerPause();
-                    player.setVolume(0);
-
-                    player.on('play', onPlayerPlay);
-                    player.on('pause', onPlayerPause);
-                    player.on('ended', onPlayerEnded);
+                // Event Listener Video HTML5
+                videoPlayer.addEventListener('play', () => {
+                    playerStatus = 'playing';
+                    icon.className = 'fas fa-pause';
                 });
+
+                videoPlayer.addEventListener('pause', () => {
+                    playerStatus = 'paused';
+                    icon.className = 'fas fa-play';
+                });
+                // Karena ada attribute loop, ended tidak terlalu diperlukan
             }
 
+
+            hideNavbar();
 
             document.getElementById('open-invitation-btn').addEventListener('click', function () {
                 var coverPage = document.getElementById('cover-page');
@@ -753,15 +745,15 @@
                 }, 1000);
             });
 
-            // Video Controls
+            // Video Controls (Diubah menggunakan videoPlayer DOM)
             toggleBtn.addEventListener('click', function () {
                 if (playerStatus === 'playing') {
-                    player.pause();
+                    videoPlayer.pause();
                 } else {
-                    player.play();
-                    // Auto-unmute 
+                    videoPlayer.play();
+                    // Auto-unmute
                     if (isMuted) {
-                        player.setVolume(1);
+                        videoPlayer.volume = 1;
                         muteIcon.className = 'fas fa-volume-up';
                         isMuted = false;
                     }
@@ -770,11 +762,11 @@
 
             toggleMuteBtn.addEventListener('click', function () {
                 if (isMuted) {
-                    player.setVolume(1);
+                    videoPlayer.volume = 1;
                     muteIcon.className = 'fas fa-volume-up';
                     isMuted = false;
                 } else {
-                    player.setVolume(0);
+                    videoPlayer.volume = 0;
                     muteIcon.className = 'fas fa-volume-mute';
                     isMuted = true;
                 }
