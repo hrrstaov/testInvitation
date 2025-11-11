@@ -419,7 +419,7 @@
 
     <div id="main-content">
 
-        <video id="github-video-player" loop muted playsinline preload="auto">
+        <video id="github-video-player" loop playsinline preload="auto">
             <source src="export.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -727,7 +727,7 @@
             
             // Inisialisasi video HTML5
             if (videoPlayer) {
-                videoPlayer.volume = 0; // Set volume ke 0 (muted)
+                videoPlayer.volume = 0; // Set volume ke 0 (muted) secara default untuk izin autoplay
                 playerStatus = 'paused'; // Status awal
 
                 // Event Listener Video HTML5
@@ -766,7 +766,7 @@
                     videoPlayer.pause();
                 } else {
                     videoPlayer.play();
-                    // Auto-unmute
+                    // Auto-unmute JIKA tombol play ditekan saat isMuted=true
                     if (isMuted) {
                         videoPlayer.volume = 1;
                         muteIcon.className = 'fas fa-volume-up';
@@ -778,8 +778,8 @@
             toggleMuteBtn.addEventListener('click', function () {
                 if (isMuted) {
                     videoPlayer.volume = 1;
-                    muteIcon.className = 'fas fa-volume-mute';
-                    isMuted = true;
+                    muteIcon.className = 'fas fa-volume-up';
+                    isMuted = false;
                 } else {
                     videoPlayer.volume = 0;
                     muteIcon.className = 'fas fa-volume-mute';
