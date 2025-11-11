@@ -105,35 +105,35 @@
         }
 
 
-        /* CSS BARU UNTUK VIDEO HTML5 (Diperbaiki agar responsif di HP/PC tanpa fullscreen) */
+
         #github-video-player {
             position: fixed;
-            top: 50%; /* Pusatkan secara vertikal */
-            left: 50%; /* Pusatkan secara horizontal */
+            top: 50%;
+            left: 50%; 
             
-            /* Menentukan ukuran yang proporsional dibatasi oleh viewport */
+        
             width: auto; 
             height: auto; 
             max-width: 100%; 
             max-height: 100vh; 
             
-            transform: translate(-50%, -50%); /* Geser kembali untuk pemusatan yang sebenarnya */
+            transform: translate(-50%, -50%); 
             z-index: -2;
             pointer-events: none;
-            object-fit: contain; /* Memastikan seluruh video terlihat tanpa terpotong */
+            object-fit: contain; 
             overflow: hidden;
             display: none;
             
-            background-color: #9BBDE6; /* Warna latar belakang body */
+            background-color: #9BBDE6; 
         }
 
 
-        /* IMAGE BACKGROUND disesuaikan agar ukurannya mirip dengan video ketika video tidak aktif */
+      
         #image-background {
             position: fixed;
             top: 50%; 
             left: 50%;
-            /* Menggunakan pembatas max-width/height agar proporsional */
+           
             width: auto; 
             height: auto; 
             max-width: 100%; 
@@ -141,9 +141,9 @@
             
             transform: translate(-50%, -50%);
             z-index: -1;
-            background-size: contain; /* Agar terlihat seluruh gambar, mirip object-fit: contain */
+            background-size: contain; 
             background-repeat: no-repeat;
-            background-color: #9BBDE6; /* Warna latar belakang body */
+            background-color: #9BBDE6;
             background-position: center;
             display: none;
             background-image: url('cover-background.jpg');
@@ -559,7 +559,7 @@
     </div>
 
     <script>
-        // Mengganti variabel player dengan elemen video HTML5
+       
         const videoPlayer = document.getElementById('github-video-player');
         var playerStatus = 'paused';
         var navBar = document.getElementById('navigator-bar');
@@ -591,7 +591,7 @@
             }, 300);
         }
 
-        // Hapus fungsi onPlayerPlay/Pause/Ended
+    
 
         /* show guestbook */
         function loadGuestbook() {
@@ -656,7 +656,7 @@
                 imageBackground.style.display = 'none';
                 videoControls.style.display = 'flex';
 
-                // Mengganti logic Vimeo ke video HTML5
+                
                 if (videoPlayer && playerStatus !== 'playing') {
                     videoPlayer.play().catch(error => {
                         console.log("Autoplay diblokir.");
@@ -670,7 +670,7 @@
                 imageBackground.style.display = 'block';
                 videoControls.style.display = 'none';
 
-                // Mengganti logic Vimeo ke video HTML5
+             
                 if (videoPlayer && playerStatus === 'playing') {
                     videoPlayer.pause();
                 }
@@ -725,10 +725,10 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             
-            // Inisialisasi video HTML5
+          
             if (videoPlayer) {
-                videoPlayer.volume = 0; // Set volume ke 0 (muted) secara default untuk izin autoplay
-                playerStatus = 'paused'; // Status awal
+                videoPlayer.volume = 0; 
+                playerStatus = 'paused'; 
 
                 // Event Listener Video HTML5
                 videoPlayer.addEventListener('play', () => {
@@ -740,7 +740,7 @@
                     playerStatus = 'paused';
                     icon.className = 'fas fa-play';
                 });
-                // Karena ada attribute loop, ended tidak terlalu diperlukan
+              
             }
 
 
@@ -760,7 +760,7 @@
                 }, 1000);
             });
 
-            // Video Controls (Diubah menggunakan videoPlayer DOM)
+           
             toggleBtn.addEventListener('click', function () {
                 if (playerStatus === 'playing') {
                     videoPlayer.pause();
