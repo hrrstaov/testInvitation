@@ -105,36 +105,44 @@
         }
 
 
-        /* CSS BARU UNTUK VIDEO HTML5 (Disesuaikan) */
+        /* CSS BARU UNTUK VIDEO HTML5 (Disesuaikan ke ukuran yang lebih kecil dan proporsional) */
         #github-video-player {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%; /* Memastikan video cukup besar untuk latar belakang */
-            min-height: 100%;
-            width: auto; /* Mempertahankan rasio aspek video */
-            height: auto; /* Mempertahankan rasio aspek video */
-            transform: translate(-50%, -50%); /* Memusatkan video */
+            top: 50%; /* Pusatkan secara vertikal */
+            left: 50%; /* Pusatkan secara horizontal */
+            
+            /* Menentukan ukuran yang lebih kecil dan mempertahankan rasio aspek */
+            width: 80%; /* Contoh: Video akan mengambil 80% dari lebar viewport */
+            max-width: 600px; /* Batasi lebar maksimal agar tidak terlalu besar di desktop */
+            height: auto; /* Memastikan tinggi menyesuaikan rasio aspek lebar */
+            
+            transform: translate(-50%, -50%); /* Geser kembali untuk pemusatan yang sebenarnya */
             z-index: -2;
             pointer-events: none;
-            object-fit: contain; /* Video akan diskalakan agar pas di area tanpa memotong, mungkin dengan letterboxing */
+            object-fit: contain; /* Memastikan seluruh video terlihat tanpa terpotong */
             overflow: hidden;
             display: none;
+
+            /* Background agar area yang tidak tertutup video memiliki warna latar yang sama dengan body */
+            background-color: #9BBDE6; 
         }
 
 
+        /* IMAGE BACKGROUND disesuaikan agar ukurannya mirip dengan video ketika video tidak aktif */
         #image-background {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 50%; 
+            left: 50%;
+            width: 80%; /* Sama dengan lebar video */
+            max-width: 600px; /* Sama dengan max-width video */
+            height: auto; 
+            min-height: 50vh; /* Minimal tinggi agar background tidak terlalu kecil */
+            transform: translate(-50%, -50%);
             z-index: -1;
             background-size: cover;
             background-position: center;
             display: none;
             background-image: url('cover-background.jpg');
-
         }
 
 
@@ -766,8 +774,8 @@
             toggleMuteBtn.addEventListener('click', function () {
                 if (isMuted) {
                     videoPlayer.volume = 1;
-                    muteIcon.className = 'fas fa-volume-up';
-                    isMuted = false;
+                    muteIcon.className = 'fas fa-volume-mute';
+                    isMuted = true;
                 } else {
                     videoPlayer.volume = 0;
                     muteIcon.className = 'fas fa-volume-mute';
