@@ -105,16 +105,19 @@
         }
 
 
-        /* CSS BARU UNTUK VIDEO HTML5 */
+        /* CSS BARU UNTUK VIDEO HTML5 (Disesuaikan) */
         #github-video-player {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 50%;
+            left: 50%;
+            min-width: 100%; /* Memastikan video cukup besar untuk latar belakang */
+            min-height: 100%;
+            width: auto; /* Mempertahankan rasio aspek video */
+            height: auto; /* Mempertahankan rasio aspek video */
+            transform: translate(-50%, -50%); /* Memusatkan video */
             z-index: -2;
             pointer-events: none;
-            object-fit: cover; /* Penting agar video mengisi seluruh layar */
+            object-fit: contain; /* Video akan diskalakan agar pas di area tanpa memotong, mungkin dengan letterboxing */
             overflow: hidden;
             display: none;
         }
@@ -405,7 +408,7 @@
     <div id="main-content">
 
         <video id="github-video-player" loop muted playsinline preload="auto">
-            <source src="export.mp4" type="video/mp4">
+            <source src="URL_VIDEO_ANDA_DI_GITHUB.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
