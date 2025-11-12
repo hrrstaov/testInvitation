@@ -109,48 +109,42 @@
         #github-video-player {
             position: fixed;
             top: 50%;
-            /* Pusatkan secara vertikal */
             left: 50%;
-            /* Pusatkan secara horizontal */
 
-            /* Menentukan ukuran yang proporsional dibatasi oleh viewport */
             width: auto;
             height: auto;
             max-width: 100%;
             max-height: 100vh;
 
             transform: translate(-50%, -50%);
-            /* Geser kembali untuk pemusatan yang sebenarnya */
-            z-index: -2;
+            /* PERBAIKAN Z-INDEX: -1 */
+            z-index: -1; 
             pointer-events: none;
             object-fit: contain;
-            /* Memastikan seluruh video terlihat tanpa terpotong */
             overflow: hidden;
             display: none;
 
             background-color: #9BBDE6;
-            /* Warna latar belakang body */
         }
 
 
-        /* IMAGE BACKGROUND disesuaikan agar ukurannya mirip dengan video ketika video tidak aktif */
+        /* IMAGE BACKGROUND */
         #image-background {
             position: fixed;
             top: 50%;
             left: 50%;
-            /* Menggunakan pembatas max-width/height agar proporsional */
+
             width: auto;
             height: auto;
             max-width: 100%;
             max-height: 100vh;
 
             transform: translate(-50%, -50%);
-            z-index: -1;
+            /* PERBAIKAN Z-INDEX: -2 */
+            z-index: -2; 
             background-size: contain;
-            /* Agar terlihat seluruh gambar, mirip object-fit: contain */
             background-repeat: no-repeat;
             background-color: #9BBDE6;
-            /* Warna latar belakang body */
             background-position: center;
             display: none;
             background-image: url('cover-background.jpg');
@@ -236,14 +230,13 @@
             width: 100%;
 
             text-align: center;
-            /* PERUBAHAN DISINI: Jadikan semua content section transparan 
-               agar latar belakang #image-background terlihat di Event, Gift, dan RSVP */
-            background: transparent; 
+        
         }
 
-        /* #profile.content-section {
-            background: transparent; // Tidak lagi diperlukan karena sudah di atas
-        } */
+        #profile.content-section {
+       
+            background: transparent; 
+        }
 
         .content-wrapper {
             padding: 20px;
@@ -665,7 +658,7 @@
                 imageBackground.style.display = 'none';
                 videoControls.style.display = 'flex';
 
-                // Mengganti logic Vimeo ke video HTML5
+              
                 if (videoPlayer && playerStatus !== 'playing') {
                     videoPlayer.play().catch(error => {
                         console.log("Autoplay diblokir.");
@@ -675,12 +668,11 @@
                 showNavbar();
 
             } else {
-                // Semua halaman non-profile akan menampilkan latar belakang gambar
+                
                 videoPlayer.style.display = 'none';
                 imageBackground.style.display = 'block';
                 videoControls.style.display = 'none';
 
-                // Mengganti logic Vimeo ke video HTML5
                 if (videoPlayer && playerStatus === 'playing') {
                     videoPlayer.pause();
                 }
@@ -770,13 +762,12 @@
                 }, 1000);
             });
 
-            // Video Controls (Diubah menggunakan videoPlayer DOM)
             toggleBtn.addEventListener('click', function () {
                 if (playerStatus === 'playing') {
                     videoPlayer.pause();
                 } else {
                     videoPlayer.play();
-                    // Auto-unmute JIKA tombol play ditekan saat isMuted=true
+                  
                     if (isMuted) {
                         videoPlayer.volume = 1;
                         muteIcon.className = 'fas fa-volume-up';
