@@ -697,6 +697,12 @@
                 document.getElementById('cover-page').style.display = 'flex';
                 document.getElementById('main-content').style.display = 'none';
                 document.body.style.overflowY = 'hidden';
+                
+                // PERBAIKAN: Hentikan video saat kembali ke Cover Page
+                if (videoPlayer && playerStatus === 'playing') {
+                    videoPlayer.pause();
+                }
+                
                 return;
             }
 
