@@ -578,7 +578,10 @@
 
         const toggleMuteBtn = document.getElementById('toggle-mute-btn');
         const muteIcon = toggleMuteBtn.querySelector('i');
+        
         let isMuted = true;
+        let normalVolume = 0.5; // <-- LEVEL VOLUME NORMAL (0.1 - 1.0)
+        
         let isGuestbookLoaded = false; // Flag untuk Guestbook
 
         /* show Navbar */
@@ -662,9 +665,7 @@
                 imageBackground.style.display = 'none';
                 videoControls.style.display = 'flex';
 
-                // Mengganti logic Vimeo ke video HTML5
                 if (videoPlayer && playerStatus !== 'playing') {
-                    // Video akan melanjutkan dari posisi terakhir (tidak reset)
                     videoPlayer.play().catch(error => {
                         console.log("Autoplay diblokir.");
                     });
@@ -678,7 +679,6 @@
                 imageBackground.style.display = 'block';
                 videoControls.style.display = 'none';
 
-                // Mengganti logic Vimeo ke video HTML5
                 if (videoPlayer && playerStatus === 'playing') {
                     videoPlayer.pause();
                 }
@@ -735,8 +735,9 @@
 
             // Inisialisasi video HTML5
             if (videoPlayer) {
-                videoPlayer.volume = 0; // Set volume ke 0 (muted) secara default untuk izin autoplay
-                playerStatus = 'paused'; // Status awal
+                // Dimulai dengan volume 0 agar bisa AutoPlay, tetapi kita setting ke 0.5 untuk normal
+                videoPlayer.volume = 0; 
+                playerStatus = 'paused'; 
 
                 // Event Listener Video HTML5
                 videoPlayer.addEventListener('play', () => {
@@ -748,7 +749,6 @@
                     playerStatus = 'paused';
                     icon.className = 'fas fa-play';
                 });
-                // Karena ada attribute loop, ended tidak terlalu diperlukan
             }
 
 
@@ -776,7 +776,7 @@
                     videoPlayer.play();
                     // Auto-unmute JIKA tombol play ditekan saat isMuted=true
                     if (isMuted) {
-                        videoPlayer.volume = 1;
+                        videoPlayer.volume = normalVolume; 
                         muteIcon.className = 'fas fa-volume-up';
                         isMuted = false;
                     }
@@ -785,13 +785,15 @@
 
             toggleMuteBtn.addEventListener('click', function () {
                 if (isMuted) {
+                    // Tombol ditekan saat MUTE, UNMUTE video
+                    videoPlayer.volume = normalVolume; 
+                    muteIcon.className = 'fas fa-volume-up';
+                    isMuted = false;
+                } else {
+                    // Tombol ditekan saat UNMUTE, MUTE video
                     videoPlayer.volume = 0;
                     muteIcon.className = 'fas fa-volume-mute';
                     isMuted = true;
-                } else {
-                    videoPlayer.volume = 1;
-                    muteIcon.className = 'fas fa-volume-up';
-                    isMuted = false;
                 }
             });
 
